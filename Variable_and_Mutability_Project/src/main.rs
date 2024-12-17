@@ -14,7 +14,9 @@ fn main() {
 
     let _favourite_beverage : &str = "Coco Cola";
 
-    #[allow(unused_variables)]
+    //Down below is a compiler directive and can we used over next line or function or on the whole file depending upon the usage.
+    //But to use over whole file it must be written at the top of the file with a minor change i.e. #![allow(unused_variables)]
+    #[allow(unused_variables)] 
      let favourite_food : &str = "Chicken";
 
 }
