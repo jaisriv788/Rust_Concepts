@@ -1,3 +1,5 @@
+use std::ops::Range;
+
 // `#[allow(unused_variables)]` is a compiler directive in Rust that suppresses warnings related to
 // unused variables. This attribute tells the Rust compiler to ignore warnings that would typically be
 // generated when variables are declared but not used in the code. It can be helpful during development
@@ -71,4 +73,43 @@ fn main() {
     // and easier to read. This format specifier is commonly used for debugging purposes to display
     // complex data types like arrays, structs, enums, etc.
     println!("{:#?}", arr);
+
+    // `dbg!(arr)` is a Rust macro that is used for debugging purposes. When `dbg!(arr)` is called, it
+    // will print the debug representation of the `arr` array along with additional information that
+    // can be helpful for debugging. This macro is commonly used to inspect the contents of variables,
+    // arrays, structs, or any other data types during development to aid in identifying issues or
+    // understanding the state of the program at a specific point.
+    dbg!(arr);
+
+    //Tuples
+    // The line `let tup = (1, 2, "hello", 3.14);` is creating a tuple named `tup` that contains four
+    // elements of different types. In this tuple:
+    // - The first element is an integer with the value `1`.
+    // - The second element is an integer with the value `2`.
+    // - The third element is a string with the value `"hello"`.
+    // - The fourth element is a floating-point number with the value `3.14`.
+    let tup = (1, 2, "hello", 3.14);
+
+    // let tup1 = tup.0;
+    // let tup2 = tup.1;
+    // let tup3 = tup.2;
+    // let tup4 = tup.3;
+
+    //the above can be achive in a single line
+    let (tup1, tup2, tup3, tup4) = tup;
+
+    println!("{:?}", tup);
+
+    //Range(It is a set of consicutive data).
+    // `let date: Range<i32> = 1..28;` is creating a range of integers from 1 to 27 (inclusive). In
+    // Rust, the `Range` type represents a half-open interval, where the start is inclusive and the end
+    // is exclusive.
+    let date: Range<i32> = 1..28; //it will not include 28
+    let date1: std::ops::RangeInclusive<char> = 'a'..='s'; //it will include 28
+
+    println!("{date:?}");
+
+    for num in date1 {
+        print!("{}, ", num);
+    }
 }
