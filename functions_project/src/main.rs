@@ -16,12 +16,7 @@ fn apply_to_jobs(number: i32, title: &str) {
 }
 
 fn is_even(number: i32) -> bool {
-    if number % 2 == 0 {
-         true
-    }
-    else{
-        false
-    }
+     number % 2 == 0 
 }
 
 fn alphabets(text: &str) -> (bool, bool) {
