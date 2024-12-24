@@ -65,8 +65,33 @@ fn main() {
     //Mutable parameters
     let food = String::from("food");
     add_food(food);
+
+    //Ownership in returning function
+    let res = bake();
+    println!("{}", res);
+
+    //Returning back the ownership
+    let mut car_name = String::from("Maruti");
+    car_name = car(car_name);
+    println!("{car_name}");
 }
 
+//Returning back the ownership
+fn car(mut val: String) -> String {
+    println!("{val}");
+    val.push_str(" 800");
+    println!("{val}");
+    val
+}
+
+//Ownership in returning function
+fn bake() -> String {
+    let cake = String::from("cake");
+    cake
+    //this function is moving the ownership to the variable in which function is called.
+}
+
+//Mutable parameters
 fn add_food(mut food: String) {
     food.push_str(" is good.");
     println!("{}", food);
