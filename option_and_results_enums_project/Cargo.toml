@@ -1,0 +1,6 @@
+[package]
+name = "option_and_results_enums_project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
