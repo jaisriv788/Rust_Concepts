@@ -245,7 +245,11 @@ Slices are a powerful and efficient way to work with parts of collections in Rus
 
 ## 8. Structs
 
-Structs are used to create complex data types that group related variables.
+### Overview
+Structs in Rust are custom data types that allow you to group together related fields. They enable the creation of more complex and meaningful data models by combining multiple pieces of data into a single entity.
+
+### Defining a Struct
+To define a struct, use the `struct` keyword followed by the name of the struct and the fields inside curly braces. Each field has a name, a type, and is separated by a comma.
 
 ```rust
 struct User {
@@ -253,6 +257,12 @@ struct User {
     email: String,
     sign_in_count: u64,
 }
+```
+
+### Creating an Instance
+You can create an instance of a struct by specifying values for all its fields. Use the field names to assign values inside curly braces.
+
+```rust
 let user1 = User {
     username: String::from("john_doe"),
     email: String::from("john@example.com"),
@@ -260,11 +270,100 @@ let user1 = User {
 };
 ```
 
+### Key Points
+1. **Immutable and Mutable Instances**:
+   - By default, structs are immutable.
+   - Use `mut` to make a struct instance mutable.
+
+   ```rust
+   let mut user1 = User {
+       username: String::from("john_doe"),
+       email: String::from("john@example.com"),
+       sign_in_count: 1,
+   };
+   user1.email = String::from("new_email@example.com");
+   ```
+
+2. **Field Init Shorthand**:
+   - If the variables have the same name as the struct fields, you can use shorthand syntax.
+
+   ```rust
+   let username = String::from("john_doe");
+   let email = String::from("john@example.com");
+   let user1 = User { username, email, sign_in_count: 1 };
+   ```
+
+3. **Using the `..` Syntax**:
+   - To create a new instance based on an existing one, you can use the `..` syntax to copy remaining fields.
+
+   ```rust
+   let user2 = User {
+       email: String::from("jane@example.com"),
+       ..user1
+   };
+   ```
+
+### Tuple Structs
+Rust also supports tuple structs, which are structs without named fields. These are useful for simple groupings of values.
+
+```rust
+struct Point(i32, i32, i32);
+let origin = Point(0, 0, 0);
+```
+
+### Unit-like Structs
+Structs without any fields are called unit-like structs. These are commonly used as markers.
+
+```rust
+struct Marker;
+```
+
+### Ownership and Borrowing
+Structs can hold references, but you must use lifetimes to ensure they are valid:
+
+```rust
+struct User<'a> {
+    username: &'a str,
+    email: &'a str,
+}
+
+let username = "john_doe";
+let email = "john@example.com";
+let user1 = User { username, email };
+```
+
+### Practical Example
+#### Modeling a User Profile
+```rust
+struct UserProfile {
+    username: String,
+    email: String,
+    bio: String,
+    active: bool,
+}
+
+let profile = UserProfile {
+    username: String::from("jane_doe"),
+    email: String::from("jane@example.com"),
+    bio: String::from("Software developer and Rustacean."),
+    active: true,
+};
+
+println!("{} ({}) - {}", profile.username, profile.email, profile.bio);
+```
+
+### Summary
+Structs are a fundamental building block in Rust for creating custom, complex data types. They support a variety of forms, including named field structs, tuple structs, and unit-like structs, making them versatile for different use cases.
+
 ---
 
 ## 9. Enums
 
-Enums represent a value from a predefined set of options:
+### Overview
+Enums in Rust allow you to define a type that can be one of several possible variants. Each variant can optionally store associated data. They are a powerful tool for modeling data that has multiple states or configurations.
+
+### Defining an Enum
+To define an enum, use the `enum` keyword followed by the name and a list of variants inside curly braces:
 
 ```rust
 enum Direction {
@@ -273,14 +372,125 @@ enum Direction {
     Left,
     Right,
 }
+```
+
+### Using an Enum
+You can create an instance of an enum by specifying the variant you want:
+
+```rust
 let dir = Direction::Up;
 ```
+
+### Key Points
+1. **Variants with No Data**:
+   - Variants can simply represent named options without any associated data.
+
+   ```rust
+   enum TrafficLight {
+       Red,
+       Yellow,
+       Green,
+   }
+   let light = TrafficLight::Green;
+   ```
+
+2. **Variants with Associated Data**:
+   - Variants can include data, making enums similar to algebraic data types in functional programming.
+
+   ```rust
+   enum Shape {
+       Circle(f64),        // radius
+       Rectangle(f64, f64), // width, height
+   }
+
+   let circle = Shape::Circle(2.5);
+   let rectangle = Shape::Rectangle(3.0, 4.0);
+   ```
+
+3. **Variants with Named Fields**:
+   - Variants can store named fields like structs.
+
+   ```rust
+   enum Message {
+       Quit,
+       Move { x: i32, y: i32 },
+       Write(String),
+   }
+
+   let move_message = Message::Move { x: 10, y: 20 };
+   ```
+
+4. **Pattern Matching**:
+   - Enums are often used with `match` expressions to handle different variants.
+
+   ```rust
+   match dir {
+       Direction::Up => println!("Going up!"),
+       Direction::Down => println!("Going down!"),
+       Direction::Left => println!("Going left!"),
+       Direction::Right => println!("Going right!"),
+   }
+   ```
+
+### Practical Example
+#### Modeling Different Payment Methods
+```rust
+enum PaymentMethod {
+    Cash,
+    CreditCard { number: String, expiry: String },
+    PayPal(String), // Email address
+}
+
+let payment = PaymentMethod::CreditCard {
+    number: String::from("1234-5678-9012-3456"),
+    expiry: String::from("12/25"),
+};
+
+match payment {
+    PaymentMethod::Cash => println!("Paid with cash"),
+    PaymentMethod::CreditCard { number, expiry } => {
+        println!("Paid with credit card: {} (expires {})", number, expiry);
+    }
+    PaymentMethod::PayPal(email) => println!("Paid with PayPal: {}", email),
+}
+```
+
+### Enum Methods
+You can define methods for enums using `impl` blocks:
+
+```rust
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+impl Direction {
+    fn is_vertical(&self) -> bool {
+        matches!(self, Direction::Up | Direction::Down)
+    }
+}
+
+let dir = Direction::Up;
+println!("Is vertical? {}", dir.is_vertical()); // Output: Is vertical? true
+```
+
+### Summary
+Enums in Rust are versatile and expressive, enabling you to model complex data and states cleanly. They are particularly effective when combined with pattern matching and associated data, making them a key tool in idiomatic Rust programming.
 
 ---
 
 ## 10. Generics
 
-Generics enable type flexibility:
+### Overview
+Generics in Rust allow you to write flexible and reusable code for multiple data types. By using generics, you can create functions, structs, enums, and traits that work with different types while maintaining type safety.
+
+### Using Generics in Functions
+Generics are specified using angle brackets (`<>`) and typically appear after the function name. The type parameter is then used within the function signature and body.
+
+#### Example: Finding the Largest Element
+The following example demonstrates a generic function to find the largest element in a slice:
 
 ```rust
 fn largest<T: PartialOrd>(list: &[T]) -> &T {
@@ -292,7 +502,99 @@ fn largest<T: PartialOrd>(list: &[T]) -> &T {
     }
     largest
 }
+
+let numbers = vec![34, 50, 25, 100, 65];
+println!("The largest number is {}", largest(&numbers)); // Output: 100
 ```
+
+### Key Points
+1. **Type Parameters**:
+   - Type parameters are placeholders for specific types and are typically written as a single uppercase letter like `T` or `U`.
+
+2. **Trait Bounds**:
+   - Generic type parameters can have trait bounds to specify behavior that the type must implement. In the example, `T: PartialOrd` ensures that the type `T` supports comparison operations.
+
+3. **Monomorphization**:
+   - At compile time, Rust generates concrete implementations for each type used with a generic function or struct, ensuring optimal performance.
+
+### Generics in Structs
+Structs can also use generics to store data of varying types:
+
+```rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+let integer_point = Point { x: 5, y: 10 };
+let float_point = Point { x: 1.0, y: 4.0 };
+```
+
+You can even use multiple generic types:
+
+```rust
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+
+let mixed_point = Point { x: 5, y: 4.5 };
+```
+
+### Generics in Enums
+Enums can use generics to represent variants with different types:
+
+```rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+```
+
+### Generics in Methods
+You can define methods on structs or enums with generics:
+
+```rust
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+}
+
+let point = Point { x: 10, y: 20 };
+println!("x: {}", point.x());
+```
+
+### Practical Example
+#### Generic Struct for Pairing
+```rust
+struct Pair<T> {
+    first: T,
+    second: T,
+}
+
+impl<T: PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.first > self.second {
+            println!("The first is larger.");
+        } else {
+            println!("The second is larger.");
+        }
+    }
+}
+
+let pair = Pair { first: 3, second: 8 };
+pair.cmp_display(); // Output: The second is larger.
+```
+
+### Summary
+Generics are a fundamental feature in Rust, enabling code reuse across different types while ensuring type safety. By combining generics with trait bounds, you can write highly flexible and performant abstractions for a wide range of use cases.
+
 
 ---
 
