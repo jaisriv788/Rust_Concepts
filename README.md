@@ -1,7 +1,7 @@
 # Rust Programming: Detailed Overview
 
 ## Table of Contents
-1. [Setup & Installation](#setup-installation)
+1. [Setup & Installation](#setup-&-installation)
 2. [Variables](#variables)
 3. [Data Types](#data-types)
 4. [Functions and Methods](#functions-and-methods)
