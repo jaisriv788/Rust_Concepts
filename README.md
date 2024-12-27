@@ -1,7 +1,7 @@
 # Rust Programming: Detailed Overview
 
 ## Table of Contents
-1. [Setup & Installation](#setup--installation)
+1. [Setup](#setup)
 2. [Variables](#variables)
 3. [Data Types](#data-types)
 4. [Functions and Methods](#functions-and-methods)
@@ -22,7 +22,7 @@
 
 ---
 
-## 1. Setup & Installation
+## 1. Setup
 
 ### Overview
 Rust is a modern, fast, and memory-safe programming language that emphasizes performance and reliability. Setting up Rust involves installing its toolchain, configuring a development environment, and understanding the basics of its build system.
