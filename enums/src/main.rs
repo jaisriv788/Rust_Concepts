@@ -2,6 +2,9 @@
 
 mod enums_in_enums;
 mod match_in_enums;
+mod match_with_multiple;
+mod match_with_exact_value;
+mod if_let_else;
 
 #[derive(Debug)]
 enum WeekDays {
